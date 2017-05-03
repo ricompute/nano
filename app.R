@@ -14,12 +14,12 @@ ui <- fluidPage(
             fileInput("file1", "Choose .ndj File",
                       accept = ".ndj"
             ),
-            # tags$hr(),
-            # tags$h2("Options"),
-            # radioButtons("options", "Choose what to display and download:",
-            #              choices = c("Full file (everything)" = "everything",
-            #                          "Bare minimum (ID, ng/\u03bcg, 260/280, 260/230)" = "min",
-            #                          "More options" = "more")),
+            tags$hr(),
+            tags$h2("Options"),
+            radioButtons("options", "Choose what to display and download:",
+                         choices = c("Full file (everything)" = "everything",
+                                     "Bare minimum (ID, ng/\u03bcg, 260/280, 260/230)" = "min")),
+                                     # "More options" = "more")),
             # uiOutput("more_options"),
             tags$hr(),
             tags$h2("Download CSV"),
@@ -47,10 +47,10 @@ server <- function(input, output) {
         options(readr.num_columns = 0)
         ndj <<- read_tsv(inFile$datapath, skip = 4)
         
-        # if (input$options == "min") {
-        #     ndj <- ndj %>% select(`Sample ID`, `ng/ul`, `260/280`, `260/230`)
-        # }
-        # ndj
+        if (input$options == "min") {
+            ndj <<- ndj %>% select(`Sample ID`, `ng/ul`, `260/280`, `260/230`)
+        }
+        ndj
     })
     
     # observeEvent(input$file1, {
